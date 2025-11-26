@@ -7,7 +7,7 @@ class Room:
         self.num_beds = 8
         self.beds = []
 
-    def add_solider_to_room(self, solider:Soldier):
+    def add_solider_to_room(self, solider):
 
         if len(self.beds) < self.num_beds:
             self.beds.append(solider)

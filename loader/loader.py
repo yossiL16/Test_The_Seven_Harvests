@@ -1,12 +1,10 @@
 import csv
-from object import soldier
 from object.soldier import Soldier
 
 
-def load_soliders_from_csv(filename = "../hayal_300_no_status.csv") -> list[Soldier]:
+def load_soldiers_from_csv(filename = "../hayal_300_no_status.csv") -> list[Soldier]:
 
     data = []
-
     with open(filename, mode='r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
@@ -21,10 +19,11 @@ def load_soliders_from_csv(filename = "../hayal_300_no_status.csv") -> list[Sold
             data.append(new_solider)
     # for i in data:
     #     print(i.to_dict())
+    # print(len(data))
     return data
 
 
-def save_soliders_to_csv(soliders:list[Soldier], filename = "../hayal_300_no_status.csv"):
+def save_soldiers_to_csv(soldiers:list[Soldier], filename = "../hayal_300_no_status.csv"):
 
     fieldnames = ['personal_number', 'f_name', 'l_name', 'gender', 'city', 'distance', 'status']
 
@@ -34,7 +33,7 @@ def save_soliders_to_csv(soliders:list[Soldier], filename = "../hayal_300_no_sta
 
         writer.writeheader()
 
-        for solider in soliders:
+        for solider in soldiers:
             writer.writerow(solider.to_dict())
 
-# load_soliders_from_csv()
+# load_soldiers_from_csv()
