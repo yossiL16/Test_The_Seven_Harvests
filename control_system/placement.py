@@ -31,7 +31,7 @@ def setup_database_soldier(csv_filename="../hayal_300_no_status.csv"):
     cursor = conn.execute("SELECT COUNT(*) FROM soldiers")
     if cursor.fetchone()[0] == 0:
         print("The table is empty, loading from csv")
-        initial_soldiers = load_soldiers_from_csv(csv_filename)  # הפונקציה משלב 1
+        initial_soldiers = load_soldiers_from_csv(csv_filename)
 
         for s in initial_soldiers:
             conn.execute("""
@@ -58,30 +58,27 @@ def setup_database_house(data):
         CREATE TABLE IF NOT EXISTS house (
             id_house INTEGER PRIMARY KEY,
             num_room int NOT NULL,
-            l_name TEXT NOT NULL,
-            gender TEXT NOT NULL,
-            city TEXT NOT NULL,
-            distance INTEGER NOT NULL,
-            status TEXT NULL
-        )
-    """)
+            personal_number int NOT NULL
+            )
+            """)
     conn.commit()
 
-    cursor = conn.execute("SELECT COUNT(*) FROM soldiers")
-    if cursor.fetchone()[0] == 0:
-        print("The table is empty, loading from csv")
-        initial_soldiers = load_soldiers_from_csv(csv_filename)  # הפונקציה משלב 1
+    conn.commit()
 
-        for s in initial_soldiers:
+    cursor = conn.execute("SELECT COUNT(*) FROM house")
+    if cursor.fetchone()[0] == 0:
+        print("The table is empty, loading from data")
+        initial_houses = load_soldiers_from_csv(data)
+
+        for s in initial_houses:
             conn.execute("""
-                INSERT INTO soldiers (personal_number, f_name, l_name, gender, city, distance, status)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (s.personal_number, s.f_name, s.l_name, s.gender, s.city, s.distance, s.status))
+                    INSERT INTO house (id_house, num_room, personal_number)
+                    VALUES (?, ?, ?)
+                """, (s.id_house, s.num_room, s.personal_number))
 
         conn.commit()
-        print(f" {len(initial_soldiers)} items loaded")
+        print(f" {len(initial_houses)} items loaded")
 
     conn.close()
 
-
-setup_database_soldier()
+setup_database_house()
