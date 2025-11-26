@@ -36,4 +36,6 @@ def save_soldiers_to_csv(soldiers:list[Soldier], filename = "../hayal_300_no_sta
         for solider in soldiers:
             writer.writerow(solider.to_dict())
 
+
+
 # load_soldiers_from_csv()

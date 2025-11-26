@@ -46,3 +46,42 @@ def setup_database_soldier(csv_filename="../hayal_300_no_status.csv"):
 
 
 setup_database_soldier()
+
+
+
+
+def setup_database_house(data):
+
+    conn = get_db_connection()
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS house (
+            id_house INTEGER PRIMARY KEY,
+            num_room int NOT NULL,
+            l_name TEXT NOT NULL,
+            gender TEXT NOT NULL,
+            city TEXT NOT NULL,
+            distance INTEGER NOT NULL,
+            status TEXT NULL
+        )
+    """)
+    conn.commit()
+
+    cursor = conn.execute("SELECT COUNT(*) FROM soldiers")
+    if cursor.fetchone()[0] == 0:
+        print("The table is empty, loading from csv")
+        initial_soldiers = load_soldiers_from_csv(csv_filename)  # הפונקציה משלב 1
+
+        for s in initial_soldiers:
+            conn.execute("""
+                INSERT INTO soldiers (personal_number, f_name, l_name, gender, city, distance, status)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (s.personal_number, s.f_name, s.l_name, s.gender, s.city, s.distance, s.status))
+
+        conn.commit()
+        print(f" {len(initial_soldiers)} items loaded")
+
+    conn.close()
+
+
+setup_database_soldier()
